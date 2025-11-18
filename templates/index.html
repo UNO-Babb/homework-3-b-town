@@ -1,61 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hexagon Tile Game</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
-        #board {
-            display: grid;
-            grid-template-columns: repeat(10, 60px);
-            grid-template-rows: repeat(10, 52px);
-            gap: 2px;
-        }
-        .hex {
-            width: 60px;
-            height: 52px;
-            background-color: lightgray;
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            transition: background-color 0.2s;
-        }
-    </style>
+    <title>World Tour Soccer Game</title>
 </head>
 <body>
 
-<div id="board">
-    <!-- Hexagonal tiles will be added here on clicks -->
-</div>
+<h1>World Tour Soccer Game</h1>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        // Create an empty board of hex tiles
-        for (let i = 0; i < 100; i++) {
-            const hexTile = $('<div class="hex"></div>');
-            hexTile.data("clicked", false);  // Track if a tile has been clicked
-            $('#board').append(hexTile);
-        }
+<h3>Current Turn: {{ turn }}</h3>
 
-        // Add color to hex tiles on click
-        $('#board').on('click', '.hex', function() {
-            if (!$(this).data("clicked")) {  // Only allow one click per tile
-                $.getJSON('/add_tile', function(data) {
-                    $(this).css('background-color', data.color);
-                    $(this).data("clicked", true);  // Mark as clicked
-                }.bind(this));
-            }
-        });
-    });
-</script>
+<a href="/roll">
+    <button style="font-size:20px; padding:10px;">Roll Dice</button>
+</a>
+
+<hr>
+
+<h2>Board Spaces</h2>
+
+<ol>
+    {% for country in spaces %}
+        <li>
+            {{ country }}
+            {% if loop.index0 == P1 %}
+                — <strong>Player 1 (Messi)</strong>
+            {% endif %}
+            {% if loop.index0 == P2 %}
+                — <strong>Player 2 (Ronaldo)</strong>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ol>
 
 </body>
 </html>
